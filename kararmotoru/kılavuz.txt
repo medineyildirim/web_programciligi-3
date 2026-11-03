@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanım Kılavuzu - Karar Sitesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-area"><i class="fa-solid fa-wand-magic-sparkles logo-icon"></i><span class="logo-text">Karar Sitesi</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-gear"></i> Karar Motoru</a></li>
+                <li><a href="hakkimizda.html"><i class="fa-solid fa-user-astronaut"></i> Hakkımızda</a></li>
+                <li><a href="kilavuz.html" class="active"><i class="fa-solid fa-book-open"></i> Kılavuz</a></li>
+                <li><a href="oneriler.html"><i class="fa-solid fa-lightbulb"></i> Öneriler</a></li>
+                <li><a href="galeri.html"><i class="fa-solid fa-images"></i> Galeri</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="dashboard-wrapper">
+        <section class="control-panel-card" style="max-width:800px; margin:0 auto;">
+            <h1 style="color:#3f2271; font-weight:800; text-align:center; margin-bottom:25px;">📖 Çark nasıl karar verir?</h1>
+            <div style="display:flex; flex-direction:column; gap:20px; color:#6a5a8c;">
+                <p><strong>1. Seçeneklerin Belleğe Alınması:</strong> Sen ekrana bir kelime yazıp "+" butonuna bastığında veya yukarıdaki hazır önerilerden birine tıkladığında, JavaScript bu kelimeleri seceneklerDizisi = [] adındaki boş bir kutunun (programlama dilinde buna Array/Dizi denir) içine sırayıyla kaydeder. Kaç tane eklersen ekle, bu liste hafızada büyümeye devam eder.</p>
+                <p><strong>2. Çarkın Dinamik Olarak Boyanması:</strong> Listedeki eleman sayısı her değiştiğinde, JavaScript çarkın toplam açısı olan 360 dereceyi listedeki eleman sayısına böler.Örneğin 4 seçenek varsa: $360 / 4 = 90^\derecelik dilimler oluşturulur.CSS'teki conic-gradient kodu tetiklenir ve çark milimetrik olarak eşit parçalara bölünerek mor tonlarında otomatik boyanır.</p>
+                <p><strong>3. Rastgelelik Motoru (Seçimin Kalbi):</strong> "Karar Ver" butonuna bastığında JavaScript'in en temel rastgelelik fonksiyonu olan Math.random() devreye girer. Bu fonksiyon bilgisayarın işlemci saatini ve arka plan verilerini kullanarak $0$ ile $1$ arasında tamamen tahmin edilemez, rastgele bir sayı üretir.Algoritma bu rastgele sayıyı kullanarak iki şey hesaplar:Tur Sayısı: Çarkın hızlıca dönüp heyecan yaratması için rastgele 5 ile 10 arasında tam tur (360 * tur) dönmesi sağlanır.Durma Açısı: Çarkın en son hangi derecede ($0$ ile $360$ arasında bir yerde) duracağı yine o an üretilen rastgele sayıyla belirlenir.</p>
+				<p><strong>4. Kazananı Milimetrik Bulma Formülü:</strong>Çark dönüp durduktan sonra, üstteki pembe konum okunun tam olarak hangi dilime denk geldiğini bulmak için küçük bir matematik formülü çalışır:$$\text{Net Açı} = (360 - \text{Durma Açısı} + 270) \pmod{360}$$Çarkın toplam dönüş derecesinin $360$ ile bölümünden kalan (% 360) alınarak durduğu son açı bulunur.Ok tam yukarıda (saat 12 yönünde) olduğu için, çarkın grafiksel açısını dengelemek adına $+270$ derece eklenir.Çıkan net açı, bir dilimin genişliğine bölünür ve çıkan sayı aşağı yuvarlanarak kazanan seçeneğin sırası (Kazanan İndis) hatasızca tespit edilir.
+            </div>
+        </section>
+    </main>
+</body>
+</html>

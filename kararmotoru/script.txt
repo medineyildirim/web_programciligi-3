@@ -1,0 +1,231 @@
+$(document).ready(function() {
+    
+    // --- 1. VERİ BELLEĞİ VE SAYAÇLAR ---
+    let seceneklerDizisi = [];
+    let secilenKategoriKey = "Yemek"; 
+    let toplamKararSayaci = 0;
+    let tumSecilenlerinListesi = [];
+    let toplamDerece = 0;
+    let isSpinning = false;
+
+    // Tam veri sözlüğü
+    const kategoriOnerileri = {
+        "Yemek": ["🍕 Pizza", "🍔 Burger", "🍲 Ev Yemeği", "🍣 Sushi", "🥙 Döner", "🍝 Makarna"],
+        "Film": ["🎬 Inception", "🍿 Breaking Bad", "🎭 Interstellar", "🦑 Squid Game", "🧙‍♂️ LOTR"],
+        "Seyahat": ["✈️ Antalya", "🏛️ Kapadokya", "🎡 Paris", "🌊 Roma", "⛩️ Tokyo"],
+        "Müzik": ["🎵 Rock", "🎧 Pop", "🎻 Klasik", "🎤 Rap", "🎷 Caz"],
+        "Özel": ["📚 Kitap Oku", "🏃‍♂️ Yürüyüş", "🎮 Oyun Oyna", "🧘‍♂️ Meditasyon"]
+    };
+
+    // --- 2. JQUERY SLIDETOGGLE (PROFİL) ---
+    $("#trigger-profile").click(function(e) {
+        e.stopPropagation();
+        $("#profile-dropdown-card").stop().slideToggle("fast");
+    });
+
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.nav-user-zone').length) {
+            $("#profile-dropdown-card").stop().slideUp("fast");
+        }
+    });
+
+    // --- 3. FORM VALIDATION MOTORU ---
+    $("#btn-submit-validation").click(function(e) {
+        e.preventDefault();
+
+        let isim = $("#val-name").val().trim();
+        let email = $("#val-email").val().trim();
+        let öneri = $("#val-suggestion").val().trim();
+        let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        if (isim === "" || email === "" || öneri === "") {
+            Swal.fire({ icon: 'warning', title: 'Doğrulama Hatası', text: 'Lütfen formdaki tüm alanları eksiksiz doldurun!', confirmButtonColor: '#7b2cbf' });
+            return false;
+        }
+
+        if (!emailRegex.test(email)) {
+            Swal.fire({ icon: 'error', title: 'Geçersiz E-posta', text: 'Lütfen doğru formatta bir e-posta adresi yazın!', confirmButtonColor: '#ff65a3' });
+            return false;
+        }
+
+        Swal.fire({ icon: 'success', title: 'Teşekkürler!', text: 'Öneriniz başarıyla doğrulandı ve iletildi.', confirmButtonColor: '#3ecf8e' });
+        $("#val-name").val("");
+        $("#val-email").val("");
+        $("#val-suggestion").val("");
+    });
+
+    // --- 4. TEMALAR VE GECE MODU ---
+    $("#btn-toggle-theme").click(function(e) {
+        e.preventDefault();
+        $("body").toggleClass("dark-mode");
+        $(this).text($("body").hasClass("dark-mode") ? "☀️" : "🌙");
+    });
+
+    // --- 5. KATEGORİ DEĞİŞTİRME MEKANİZMASI ---
+    $(".cat-btn").click(function() {
+        if (isSpinning) return;
+        $(".cat-btn").removeClass("active");
+        $(this).addClass("active");
+        
+        secilenKategoriKey = $(this).attr("data-catekey"); 
+        
+        seceneklerDizisi = [];
+        $("#suggestions-drawer").hide();
+        carkiSifirla();
+    });
+
+    // --- 6. İSTEDİĞİN KADAR SEÇENEK DESTEKLEYEN KOYU MOR TONLU ÇARK ---
+    function carkGorseliniGuncelle() {
+        $(".wheel-labels-layer").empty();
+
+        let toplamEleman = seceneklerDizisi.length;
+        if (toplamEleman === 0) {
+            $(".wheel-canvas").css("background", "#eedfff");
+            return;
+        }
+
+        let dilimAcisi = 360 / toplamEleman;
+        let gradientKodu = "conic-gradient(";
+
+        // İstediğin o asil ve şık mor ton farkları
+        const morTonlari = ["#7b2cbf", "#8a39df", "#691ebb", "#964cee"];
+
+        seceneklerDizisi.forEach(function(item, index) {
+            let baslangic = index * dilimAcisi;
+            let bitis = (index + 1) * dilimAcisi;
+            let dilimRengi = morTonlari[index % morTonlari.length];
+            
+            gradientKodu += dilimRengi + " " + baslangic + "deg " + bitis + "deg";
+            if (index < toplamEleman - 1) {
+                gradientKodu += ", #ffffff " + bitis + "deg " + (bitis + 1) + "deg, ";
+            }
+        });
+        gradientKodu += ")";
+
+        $(".wheel-canvas").css("background", gradientKodu);
+
+        // Yazıları çarkın üzerine yerleştirme (Bozulma riski sıfırlandı)
+        seceneklerDizisi.forEach(function(item, index) {
+            let yaziAcisi = (index * dilimAcisi) + (dilimAcisi / 2);
+            let labelHtml = $('<div class="wheel-label-item"><span>' + item + '</span></div>');
+            labelHtml.css("transform", "rotate(" + yaziAcisi + "deg)");
+            $(".wheel-labels-layer").append(labelHtml);
+        });
+    }
+
+    function carkiSifirla() {
+        $(".wheel-canvas-container").css("transform", "rotate(0deg)");
+        toplamDerece = 0;
+        cizdirSecenekCipleri();
+    }
+
+    function cizdirSecenekCipleri() {
+        $("#dynamic-chips-container").empty();
+        seceneklerDizisi.forEach(function(item, index) {
+            $("#dynamic-chips-container").append('<span class="added-chip">' + item + ' <i class="fa-solid fa-xmark btn-chip-sil" data-id="' + index + '"></i></span>');
+        });
+        carkGorseliniGuncelle();
+    }
+
+    // --- 7. SEÇENEK EKLEME VE SİLME MEKANİZMASI (DÜZELTİLDİ) ---
+    $("#btn-add").click(function() {
+        if (isSpinning) return;
+        let text = $("#option-input").val().trim();
+        if(text === "") { Swal.fire({ icon: 'error', title: 'Hata', text: 'Lütfen boş seçenek eklemeyin!' }); return; }
+        seceneklerDizisi.push(text);
+        $("#option-input").val("");
+        cizdirSecenekCipleri();
+    });
+
+    // Enter algılayıcısındaki yazım hatası giderildi (e.which kuralı)
+    $("#option-input").on("keypress", function(e) {
+        if(e.which === 13) {
+            $("#btn-add").click();
+        }
+    });
+
+    $(document).on("click", ".btn-chip-sil", function() {
+        if (isSpinning) return;
+        let id = $(this).attr("data-id");
+        seceneklerDizisi.splice(id, 1);
+        cizdirSecenekCipleri();
+    });
+
+    // Kategorilerin öneri butonları
+    $("#btn-see-suggestions").click(function() {
+        if (isSpinning) return;
+        let list = kategoriOnerileri[secilenKategoriKey] || kategoriOnerileri["Yemek"];
+        $("#suggestions-chips-flex").empty();
+        list.forEach(item => $("#suggestions-chips-flex").append('<button class="sug-chip">' + item + '</button>'));
+        $("#suggestions-drawer").stop().fadeToggle("medium");
+    });
+
+    $(document).on("click", ".sug-chip", function() {
+        if (isSpinning) return;
+        let value = $(this).text();
+        if(seceneklerDizisi.includes(value)) return;
+        seceneklerDizisi.push(value);
+        cizdirSecenekCipleri();
+        $(this).fadeOut("fast");
+    });
+
+    // --- 8. ÇARK DÖNDÜRME VE YÜZDE YÜZ DOĞRU EKLEME MOTORU ---
+    $("#btn-decide, .wheel-canvas-container").click(function() {
+        if(isSpinning) return;
+        if(seceneklerDizisi.length < 2) { Swal.fire({ icon: 'warning', title: 'Yetersiz Seçenek', text: 'Lütfen en az 2 seçenek girin!' }); return; }
+        
+        isSpinning = true;
+        let rastgeleTur = Math.floor(Math.random() * 5) + 6; 
+        let ekstraDerece = Math.floor(Math.random() * 360);
+        toplamDerece += (rastgeleTur * 360) + ekstraDerece;
+        
+        $(".wheel-canvas-container").css("transform", "rotate(" + toplamDerece + "deg)");
+
+        setTimeout(function() {
+            isSpinning = false;
+            let durmaAcisi = toplamDerece % 360;
+            let dilimGenisligi = 360 / seceneklerDizisi.length;
+            
+            // Ok tam saat 12 yönünde yukarıda olduğu için kazananı milimetrik bulan yeni formül:
+            let netAci = (360 - durmaAcisi + 270) % 360;
+            let kazananIndis = Math.floor(netAci / dilimGenisligi) % seceneklerDizisi.length;
+            
+            let nihaiKarar = seceneklerDizisi[kazananIndis];
+
+            let simdi = new Date();
+            let saat = ("0" + simdi.getHours()).slice(-2) + ":" + ("0" + simdi.getMinutes()).slice(-2);
+
+            toplamKararSayaci++;
+            tumSecilenlerinListesi.push(nihaiKarar);
+            $("#stat-total-count").text(toplamKararSayaci);
+            
+            let frekans = {}; let enPopuler = nihaiKarar; let maxFrekans = 0;
+            tumSecilenlerinListesi.forEach(v => { frekans[v] = (frekans[v] || 0) + 1; if(frekans[v] > maxFrekans) { maxFrekans = frekans[v]; enPopuler = v; } });
+            $("#stat-fav-choice").text(enPopuler);
+
+            $(".empty-history-text").hide();
+            $("#history-rows-container").prepend('<div class="h-row"><span class="h-time">⏱️ ' + saat + '</span><span class="h-val">' + nihaiKarar + '</span></div>');
+
+            Swal.fire({ title: 'Çark Kararını Verdi!', html: 'Sistem senin için şunu seçti: <br><br><span style="font-size:24px; color:#7b2cbf; font-weight:bold;">🎉 ' + nihaiKarar + ' 🎉</span>', icon: 'success' });
+        }, 4000);
+    });
+
+    // --- 9. GEÇMİŞİ GÖSTER/GİZLE AKSİYONU ---
+    $("#btn-toggle-history").click(function(){
+        $("#history-panel").stop().slideToggle("medium");
+    });
+
+    // --- 10. SİSTEMDEN ÇIKIŞ AKSİYONU ---
+    $(document).on("click", "#btn-logout", function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Oturum Kapatılıyor',
+            text: 'Başarıyla sistemden çıkış yaptınız. Görüşmek üzere!',
+            icon: 'info',
+            confirmButtonColor: '#7b2cbf'
+        }).then(() => {
+            $("#profile-dropdown-card").stop().slideUp("fast");
+        });
+    });
+
+});

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Çark</title>
+</head>
+<body>
+
+<canvas id="cark" width="300" height="300" style="border:1px solid black;"></canvas>
+
+<script>
+let canvas = document.getElementById("cark");
+let ctx = canvas.getContext("2d");
+
+function carkCiz() {
+    let dilimSayisi = 6;
+    let aci = (2 * Math.PI) / dilimSayisi;
+
+    for (let i = 0; i < dilimSayisi; i++) {
+        ctx.beginPath();
+        ctx.moveTo(150, 150);
+        ctx.arc(150, 150, 150, i * aci, (i + 1) * aci);
+        ctx.fillStyle = i % 2 == 0 ? "purple" : "pink";
+        ctx.fill();
+        ctx.stroke();
+    }
+}
+
+carkCiz();
+</script>
+
+</body>
+</html>

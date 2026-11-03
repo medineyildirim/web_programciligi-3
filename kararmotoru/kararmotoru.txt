@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karar Sitesi - Kararsız Kalma!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-area">
+                <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+                <span class="logo-text">Karar Sitesi</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active"><i class="fa-solid fa-gear"></i> Karar Motoru</a></li>
+                <li><a href="hakkimizda.html"><i class="fa-solid fa-user-astronaut"></i> Hakkımızda</a></li>
+                <li><a href="kilavuz.html"><i class="fa-solid fa-book-open"></i> Kılavuz</a></li>
+                <li><a href="oneriler.html"><i class="fa-solid fa-lightbulb"></i> Öneriler</a></li>
+                <li><a href="galeri.html"><i class="fa-solid fa-images"></i> Galeri</a></li>
+            </ul>
+            
+            <div class="nav-user-zone">
+                <button id="btn-toggle-theme" class="theme-toggle-btn" type="button">🌙</button>
+                <div id="trigger-profile" class="user-profile-trigger">
+                    <img src="https://i.pinimg.com/1200x/6c/bf/3d/6cbf3d61174114dd83b7102e172852e1.jpg" alt="Profil Resmi" class="user-avatar-img">
+                    <span class="user-name-text">Ayşe ERKEKOĞLU</span>
+                    <i class="fa-solid fa-chevron-down arrow-down-ui"></i>
+                </div>
+
+                <div id="profile-dropdown-card" class="profile-card-dropdown" style="display: none;">
+                    <div class="profile-card-header">
+                        <h4>Ayşe ERKEKOĞLU</h4>
+                        <p>Öğrenci No: 20241317001</p>
+                    </div>
+                    <div class="profile-card-body">
+                        <div class="p-stat-item"><i class="fa-solid fa-graduation-cap"></i> <span>İnternet Programcılığı I</span></div>
+                        <div class="p-stat-item"><i class="fa-solid fa-code"></i> <span>Final Projesi Ödevi</span></div>
+                        
+                        <hr class="profile-divider">
+                        
+                        <form id="profile-mini-form" class="profile-validation-form" onsubmit="return false;">
+                            <p class="form-title-mini">💡 Çark İçin Kategori Öner</p>
+                            <input type="text" id="val-name" placeholder="Adınız..." autocomplete="off">
+                            <input type="text" id="val-email" placeholder="E-posta adresiniz..." autocomplete="off">
+                            <input type="text" id="val-suggestion" placeholder="Öneriniz (Örn: Sinema)..." autocomplete="off">
+                            <button type="button" id="btn-submit-validation" class="form-submit-btn">Öneriyi Gönder</button>
+                        </form>
+
+                        <hr class="profile-divider">
+                        <a href="#" id="btn-logout" class="profile-action-link"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sistemden Çıkış</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="dashboard-wrapper">
+        <header class="dashboard-header">
+            <h1>KARARSIZ KALMA, SEÇİMİ BİZE BIRAK!</h1>
+            <p>Seçeneklerini ekle, şansa bırak, kararını eğlenceli şekilde öğren!</p>
+        </header>
+
+        <div class="main-dashboard-grid">
+            <section class="control-panel-card">
+                <div class="category-wrapper">
+                    <button type="button" class="cat-btn active" data-catekey="Yemek">🍔 YEMEK</button>
+                    <button type="button" class="cat-btn" data-catekey="Film">🎬 FİLM/DİZİ</button>
+                    <button type="button" class="cat-btn" data-catekey="Seyahat">✈️ SEYAHAT</button>
+                    <button type="button" class="cat-btn" data-catekey="Müzik">🎵 MÜZİK</button>
+                    <button type="button" class="cat-btn" data-catekey="Özel">🎁 ÖZEL</button>
+                </div>
+
+                <div class="modern-input-group">
+                    <input type="text" id="option-input" placeholder="Seçeneği yazın..." autocomplete="off">
+                    <button type="button" id="btn-add" class="input-add-inner-btn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+
+                <div id="dynamic-chips-container" class="chips-display-zone"></div>
+
+                <div class="dashboard-actions">
+                    <button type="button" id="btn-decide" class="main-gradient-btn">🎲 KARAR VER</button>
+                </div>
+                <div class="secondary-actions">
+                    <button type="button" id="btn-toggle-history" class="sec-btn"><i class="fa-solid fa-history"></i> Geçmişi Göster</button>
+                    <button type="button" id="btn-see-suggestions" class="sec-btn"><i class="fa-solid fa-wand-magic"></i> Önerileri Gör</button>
+                </div>
+
+                <div id="suggestions-drawer" class="suggestions-drawer" style="display: none;">
+                    <div class="sug-title">💡 Popüler Alternatifler (Tıkla ve Ekle):</div>
+                    <div id="suggestions-chips-flex" class="sug-chips-flex"></div>
+                </div>
+
+                <div id="history-panel" class="history-list-card">
+                    <h3><i class="fa-solid fa-list-check"></i> GEÇMİŞ KARARLARIM</h3>
+                    <div id="history-rows-container" class="history-rows">
+                        <div class="empty-history-text">Henüz verilmiş bir karar kaydı bulunmuyor.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wheel-panel-card">
+                <div class="wheel-outer-container">
+                    <div class="wheel-pointer"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="wheel-canvas-container">
+                        <div class="wheel-canvas"></div>
+                        <div class="wheel-labels-layer"></div>
+                        <div class="wheel-center-pin"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                </div>
+                <p class="wheel-helper-text"><i class="fa-solid fa-circle-info"></i> Karar vermek için çarka tıkla veya "Karar Ver" butonuna bas!</p>
+            </section>
+        </div>
+
+        <footer class="bottom-stats-grid">
+            <div class="stat-mini-card">
+                <div class="stat-icon-box purple"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="stat-info"><span class="stat-label">Toplam Karar</span><span id="stat-total-count" class="stat-value">0</span></div>
+            </div>
+            <div class="stat-mini-card">
+                <div class="stat-icon-box pink"><i class="fa-solid fa-fire"></i></div>
+                <div class="stat-info"><span class="stat-label">En Çok Seçilen</span><span id="stat-fav-choice" class="stat-value">-</span></div>
+            </div>
+            <div class="stat-mini-card">
+                <div class="stat-icon-box yellow"><i class="fa-solid fa-stopwatch"></i></div>
+                <div class="stat-info"><span class="stat-label">Ortalama Süre</span><span class="stat-value">15 sn</span></div>
+            </div>
+            <div class="ai-quote-card">
+                <span class="quote-icon">“</span>
+                <p class="quote-text">"Karar vermek zor, ama bazen şansa bırakmak en iyi seçimdir."</p>
+                <div class="ai-bot-avatar"><i class="fa-solid fa-robot"></i></div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Öneriler Havuzu - Karar Sitesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-area"><i class="fa-solid fa-wand-magic-sparkles logo-icon"></i><span class="logo-text">Karar Sitesi</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-gear"></i> Karar Motoru</a></li>
+                <li><a href="hakkimizda.html"><i class="fa-solid fa-user-astronaut"></i> Hakkımızda</a></li>
+                <li><a href="kilavuz.html"><i class="fa-solid fa-book-open"></i> Kılavuz</a></li>
+                <li><a href="oneriler.html" class="active"><i class="fa-solid fa-lightbulb"></i> Öneriler</a></li>
+                <li><a href="galeri.html"><i class="fa-solid fa-images"></i> Galeri</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="dashboard-wrapper">
+        <section class="control-panel-card" style="max-width:800px; margin:0 auto; text-align:center;">
+            <h1 style="color:#3f2271; font-weight:800; margin-bottom:20px;">💡 Hazır İlham Havuzu</h1>
+            <p style="color:#8c7ea6; margin-bottom:20px;">Kararsız kaldığınız anlarda en çok tercih edilen popüler çark listeleri:</p>
+            <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                <span class="added-chip">🍕 İtalyan Gecesi</span>
+                <span class="added-chip">🎬 Bilim Kurgu Maratonu</span>
+                <span class="added-chip">✈️ Ege Turu Rotaları</span>
+                <span class="added-chip">🎵 Akustik Türkçe Rock</span>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

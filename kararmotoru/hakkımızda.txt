@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Hakkımızda - Karar Sitesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-area"><i class="fa-solid fa-wand-magic-sparkles logo-icon"></i><span class="logo-text">Karar Sitesi</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-gear"></i> Karar Motoru</a></li>
+                <li><a href="hakkimizda.html" class="active"><i class="fa-solid fa-user-astronaut"></i> Hakkımızda</a></li>
+                <li><a href="kilavuz.html"><i class="fa-solid fa-book-open"></i> Kılavuz</a></li>
+                <li><a href="oneriler.html"><i class="fa-solid fa-lightbulb"></i> Öneriler</a></li>
+                <li><a href="galeri.html"><i class="fa-solid fa-images"></i> Galeri</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="dashboard-wrapper">
+        <section class="control-panel-card" style="max-width:800px; margin:0 auto; text-align:center;">
+            <h1 style="color:#3f2271; font-weight:800; margin-bottom:20px;">💻 Proje Hakkında</h1>
+            <p style="color:#6a5a8c; line-height:1.8; font-size:16px;">Bu proje, <strong>İnternet Programcılığı I</strong> dersi final uygulaması kapsamında tam not alma hedefiyle kurgulanmıştır. Gelişmiş CSS mimarisi, dinamik veri dizileri, jQuery DOM manipülasyonu ve kullanıcı form validasyon süreçlerini başarıyla doğrulamaktadır.</p>
+            <div style="margin-top:30px; color:#7b2cbf; font-weight:600;"><i class="fa-solid fa-graduation-cap" style="font-size:40px;"></i><br><br>Başarılar Dileriz!</div>
+        </section>
+    </main>
+</body>
+</html>
