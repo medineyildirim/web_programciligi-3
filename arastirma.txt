@@ -1,0 +1,155 @@
+Monolitik Mimari Nedir?
+Monolitik mimari, bir yazılım uygulamasının tüm bileşenlerinin (veri tabanı bağlantısı, iş mantığı, kullanıcı arayüzü, servisler gibi) tek bir kod tabanı ve tek bir çalıştırılabilir paket içinde bir arada bulunur.
+Bu yapıda uygulama tek bir paket olarak derlenir ve dağıtılır. Genellikle küçük ölçekli projelerde veya geliştirme sürecinin başlarında hız kazandırmak amacıyla tercih edilir.
+Monolitik Mimarinin Temel Özellikleri
+1-	Tek Parça Kod Tabanı: Uygulamanın tüm modülleri aynı projede yer alır. Örneğin; bir e-ticaret uygulamasında kullanıcı yönetimi, sepet, ödeme ve ürün kataloğu aynı kod tabanı içinde bulunur.
+2-	Tek Noktadan Dağıtım: Küçük bir değişiklik yapıldığında tüm sistemin yeniden derlenmesi ve sunucuya tek bir paket olarak yüklenmesi gerekir.
+3-	Bellek ve Veri Tabanı: Genellikle tüm bileşenler aynı veri tabanını paylaşır ve aynı bellek alanında çalışır.
+Avantajları Nelerdir?
+1-	Geliştirmesi Kolaydır: tüm kodlar tek bir yerde olduğu için kurulumu ve kodlaması basittir. 
+2-	  Kolay Test ve Hata Ayıklama: Uygulama tek bir parça olarak çalıştığı için testler ve lokalde hata ayıklamak kolaydır.
+3-	Basit Dağıtım: Çalıştırılabilir tek bir dosya (örneğin zip dosyası) elde ederseniz bunu sunucuya yüklemek karmaşıklık yaratmaz.
+4-	Yüksek Performans: Tüm dosyalar aynı anda haberleştiği için ağ üzerinden yapılan çağrılara kıyasla daha hızlı çalışır.
+Dezavantajları Nelerdir?
+1-	Ölçeklenebilirlik Zorluğu: Uygulamanın sadece belirli bir kısmı yüksek kaynağa ihtiyaç duyduğunda, tüm monolitik uygulamayı ölçeklendirmek zorunda kalırız. Bu da sunucu maliyetlerini artırır.
+2-	Sıkı Bağlılık: Kod büyüdükçe modüller birbirine bağımlı hale gelebilir. "Spaghetti kod" dediğimiz, takip edilmesi zor bir yapıya dönüşebilir. 
+3-	Teknoloji Bağımlılığı: Tüm sistem genellikle tek bir dille ve framework ile yazılmak zorundadır. Bunu başka bir dile çevirmek oldukça zordur.
+4-	Arıza Toleransı Düşük: Uygulamanın bir yerinde oluşan kritik bir hata tüm sistemin çökmesine neden olabilir.
+Mikroservis Mimarisi Nedir?
+Büyük ve karmaşık bir yazılım uygulamasının, birbirleriyle bağımsız olarak iletişim kurabilen küçük ve bağımsız servisler halinde tasarlandığı bir yazılım geliştirme yaklaşımıdır.
+ Her servisin genellikle kendi kod tabanı, kendi ve bağımsız dağıtım hattı vardır.
+Monolitik mimaride her şey tek bir büyük parça halindeyken, mikroservis mimarisinde ise her biri kendi iş mantığına, veri tabanına ve dağıtım sürecine sahip küçük parçalara bölünür.
+Mikroservis Mimarisinin Temel Özellikleri
+1-	Bağımsız Servisler: Her bir mikroservis kendi işlevini yerine getirir (örneğin; sadece sepet işlemleri veya sadece ödeme).
+2-	Kendi Veri Tabanı: Her mikroservis genellikle kendi veri tabanına sahiptir. Servisler birbirlerinin veri tabanlarına doğrudan erişemez, veri alışverişini ağ üzerinden yapar.
+3-	Farklı Teknolojiler Kullanabilme: Bir servis Java ile yazılmışken, başka bir servis farklı yazılabilir. Herkes istediği teknolojiyi seçmekte özgürdür.
+4-	Bağımsız Dağıtım: Bir serviste yapılan küçük bir güncelleme veya hata düzeltmesi için tüm uygulamanın yeniden başlatılmasına gerek yoktur. Sadece o ilgili servis güncellenebilir.
+Avantajları Nelerdir?
+1-	Kolay Ölçeklenebilirlik: Trafiğin yoğun olduğu belirli bir servis diğerlerinden bağımsız olarak, sadece o servise özel sunucu kaynakları artırılabilir.
+2-	Hata İzolasyonu: Servislerden birinde çökme veya hata meydana geldiğinde sistemin kalanı çalışmaya devam eder; tüm uygulama çökmez.
+3-	Ölçeklenebilir Ekipler: Farklı ekipler farklı servisler üzerinde birbirlerinin kodunu bozma korkusu yaşamadan eş zamanlı olarak çalışabilir.
+4-	  Bağımsız Dağıtım: Bir servisteki güncelleme veya hata düzeltmesi diğer servisleri etkilemeden bağımsız olarak çalışabilir.
+5-	 Teknoloji Çeşitliliği: Her servis için en uygun teknoloji seçilebilir (örneğin bir servis Python ile yazılırken, yüksek performanslı API Go veya Rust ile yazılabilir).
+Dezavantajları Nelerdir?
+1-	Operasyonel Karmaşıklık: Onlarca hatta yüzlerce servisi yönetmek, servis keşfi ve merkezi loglama gibi gelişmiş altyapı araçlarını gerektirir.
+2-	Ağ Gecikmesi: Monolitik mimaride bileşenler bellek üzerinden haberleşirken, mikroservislerde işlemler ağ üzerinden API çağrılarıyla gerçekleşir bu da gecikmelere yol açabilir.
+3-	Dağıtık Sistemlerin Zorlukları: Veri tutarlılığını sağlamak (örneğin bir ödeme işleminde hata olduğunda birden fazla servisteki veriyi geri almak) monolitik yapılara göre çok daha zordur.
+4-	Test Etme Zorluğu: Uçtan uca testler yapmak, tüm servislerin ayakta olmasını ve birbiriyle doğru haberleşmesini gerektirdiği için daha karmaşıktır.
+
+
+Monolitik Mimaride Yatay ve Dikey Genişleme
+ Dikey Genişleme 
+Dikey genişleme, mevcut sunucunun donanımını arttırma işlemidir. Yani tek bir sunucuda çalışırız fakat o sunucunun (örneğin CPU, RAM gibi) donanım gücünü yükseltme işlemidir.
+
+
+Yatay Genişleme 
+Yatay genişleme, monolitik uygulamanın tam bir kopyasını birden fazla sunucuya kurarak gelen trafiği bu sunucular arasında paylaştırma işlemidir. Tek bir servis yerine uygulamanın tamamı her bir sunucuda aynen çoğaltılır.
+FARKLARI
+1-	Dikey genişlemede donanım artar, Yatay genişlemede sisteme yeni sunusular eklenir.
+2-	Dikey genişleme fiziksel donanımın sınırlarına tabidir. Yatay genişlemede ise belirli bir sınır yoktur, ihtiyaç duyuldukça yeni sunucu eklenebilir.
+3-	Dikey genişlemede tek bir sunucu çalıştığı için sunucu çökerse tüm her şey erişilemez olur fakat Yatay genişlemede birden fazla sunucu olduğu için biri çökerse diğeri çalışmaya devam eder.
+4-	Dikey genişlemede ilk başta bir zorluk yoktur fakat bu durum üst düzey donanıma geçince maliyet artabilir. Yatayda ise bu durum daha ekonomiktir, sunuculardan toplanan maliyet optimize edilir.
+Mikroservis ve Monolitik mimari farkları
+1-	Monolitik mimaride uygulamanın tüm fonksiyonları tek bir projede toplanır. Mikroservis mimarisinde ise uygulama, kendi görevini yerine getiren birbirinden tamamen bağımsız küçük projelere bölünür.
+2-	Monolitik mimaride kodda yapılan en küçük değişiklikte bile tüm uygulamanın yeniden derlenip sunucuya yüklenmesi gerekir. Mikroserviste ise servisler birbirinden bağımsız olduğu için sadece ilgili servis güncellenip düzeltilir.
+3-	Monolitik mimaride her şey tek bir veri tabanını kullanır. Mikroserviste her servisin kendi veri tabanı vardır.
+4-	Monolitik mimaride yaşanan bellek sızıntısı veya çökme tüm uygulamanın durmasına yol açabilir. Mikroserviste ise bir servisin çökmesi sadece o işlevi etkiler, sistemin geri kalanı çalışmaya devam eder.
+
+ 
+AKILLI EVCİL HAYVAN BESLEME KABI 
+Projemin temel amacı:
+ Evcil hayvan sahiplerinin (özellikle yoğun çalışan veya seyahat eden kişilerin) evcil dostlarının beslenme düzenini uzaktan ve güvenilir bir şekilde yönetmesini sağlamaktır. Sistem, mama kaplarındaki doluluk oranını sürekli takip ederek zamanlanmış porsiyonlarda otomatik mama akışı sağlar, mama seviyesi azaldığında kullanıcıyı uyarır ve hayvanın günlük beslenme istatistiklerini kayıt altına alarak daha sağlıklı bir yaşam sürmesine katkıda bulunur.
+Projemin Kapsamı:
+Donanım: ESP32 mikroişlemcisi, servo motor (kapak mekanizması için), ağırlık sensörü (mama seviyesi tespiti için), ledler ve Wi-Fi modülü.
+Yazılım: Android cihazlar için geliştirilmiş Kotlin tabanlı mobil uygulama(Android studio).
+Veri Tabanı: Cihaz ile mobil uygulama arasında anlık veri alışverişini sağlayan, dökülen mama saatini ve miktarını, kullanıcı ayarlarını saklayan veritabanı.
+Projemin Çözümlediği Problemler:
+Unutulan veya Geciken Öğünler: Sahiplerin yoğun iş temposu veya evde yoklukları nedeniyle evcil hayvanların beslenme saatlerinin aksaması problemini otomatik zamanlayıcı ile çözer.
+Aşırı veya Yetersiz Beslenme: Hayvanların kontrolsüz mama tüketmesini önlemek için her öğünde standart ve ölçülü porsiyonlar sunar.
+Mama Bitmesi Durumundan Habersiz Olma: Mama kabındaki mamanın azaldığını veya bittiğini anlık olarak algılayarak kullanıcıya bildirim gönderir.
+Uzaktan Kontrol Eksikliği: Evde fiziksel olarak bulunulmadığı durumlarda bile akıllı telefon üzerinden besleme yapabilme ve durumu takip edebilirler.
+Projemin Hedef Kitlesi:
+Yoğun çalışma temposuna sahip evcil hayvan sahipleri.
+Sık seyahat eden ve evde kısa süreliğine yalnız kalan kedi/köpek sahipleri.
+Evcil hayvanlarının günlük mama tüketim miktarını ve düzenini dijital ortamda takip etmek ve kontrol etmek isteyen bilinçli hayvan severler.
+Akıllı ev otomasyon teknolojilerine ilgi duyan teknoloji kullanıcıları.
+Projemin Planı:
+1. Hafta Proje Konusunun Belirlenmesi Akıllı Kedi Maması Kabı projesinin gereksinimlerinin çıkarılması, kullanılacak donanım (ESP32, ledler, sensörler, Servo motor) ve yazılım teknolojilerinin (Android Studio, , Arduino İDE, MySQL) netleştirilmesi. 
+2. Hafta Gereksinim Analizi ve Modelleme (Use Case) Kullanıcı ve sistem aktörlerinin belirlenmesi, mobil arayüz ile sensör/log takibi modüllerine ait Use Case diyagramlarının Lucidchart ile çizilmesi.
+ 3. Hafta Veritabanı Tasarımı ve ER Diyagramı Sistem için gerekli veri tabanı varlıklarının (Kullanıcılar, Hayvanlar, Cihazlar, Besleme Saatleri, Kayıt) ve aralarındaki ilişkilerin (PK/FK) tasarlanarak ER diyagramının oluşturulması. 
+4. Hafta Donanım Devre Kurulumu ve Sensör Testleri ESP32 mikrodenetleyici ile ağırlık sensörü ve motor bağlantılarının kurulması, ilk kodlarının yazılması.
+ 5. Hafta Mobil Uygulama Arayüz Tasarımı (Android Studio) Kullanıcının giriş yapabileceği, anlık mama miktarını görebileceği ve manuel besleme tetikleyebileceği mobil arayüz ekranlarının tasarlanması.
+ 6. Hafta Veritabanı Kurulumu Tasarlanan veritabanı tablolarının oluşturulması, mobil uygulama ile ESP32 cihazı arasındaki veri haberleşmesinin sağlanması.
+ 7. Hafta Zamanlanmış Besleme ve Otomasyon Kodlaması Cihazın belirlenen saatlerde otomatik mama dökmesini sağlayacak yazılım mantığının ESP32 tarafına entegre edilmesi.
+ 8. Hafta Kayıt ve Raporlama Modülü Dökülen mama miktarlarının ve besleme saatlerinin "Kayıt" tablosuna işlenmesi ve kullanıcının geçmiş tüketim raporlarını mobil uygulamadan görüntülemesi.
+ 9. Hafta Hata Ayıklama Donanım ve yazılımın baştan sona birlikte test edilmesi; ağırlık ölçüm doğruluğu, Wi-Fi kopma senaryoları ve zamanlama hatalarının giderilmesi.
+ 10. Hafta Proje Raporunun Tamamlanması Tüm teknik dokümantasyonun Word raporuna aktarılması ve diyagramların eklenmesi.
+Gereksinimler (MOSCOW)
+Must have:
+1-	Kullanıcı mobil uygulama üzerinden manuel olarak mama akışını sağlayabilmektedir.
+2-	ESP32 modülü evdeki Wi-Fi ağına kablosuz olarak bağlanabilmelidir.
+3-	Sistem, mama kabındaki doluluk durumunu sensörler aracılığıyla ölçebilmelidir.
+4-	Belirlenen saatlerde otomatik mama dağıtımı yapılabilmelidir.
+5-	Mama seviyesi kritik eşiğin altına düştüğünde kullanıcıya mobil bildirim gönderilmelidir.
+6-	Her başarılı besleme işlemi veritabanına tarih ve saat bilgisiyle kaydedilmelidir.
+7-	Kullanıcılar uygulama üzerinden sisteme güvenli bir şekilde giriş yapabilmelidir.
+8-	Elektrik kesintisi veya bağlantı kopması durumunda temel ayarların korunması için dahili hafıza desteği olmalıdır.
+Should have:
+9-	Günlük, haftalık ve aylık mama tüketim istatistiklerini mobil uygulamada gösterilmelidir.
+10-	Evcil hayvanın yaşına ve kilosuna göre önerilen günlük mama porsiyonu hesaplanmalıdır.
+11-	Cihaz bağlantısı koptuğunda kullanıcı görsel veya sesli uyarı ile bilgilendirilmelidir.
+12-	Birden fazla evcil hayvan için profil oluşturma ve farklı porsiyon tanımlama desteği sağlanmalıdır.
+13-	Mobil uygulamada koyu tema seçeneği yer almalıdır.
+Could have:
+14-	Mama azaldığında otomatik olarak anlaşmalı e-ticaret sitelerinden mama sipariş önerisi sunulmalıdır.
+15-	Evcil hayvan su kabındaki su miktarını da ölçen ek bir su seviyesi sensörü sağlanmalıdır.
+16-	Maması verildiğinde evcil hayvanı çağırmak için cihaza hoparlör üzerinden ses kaydı oynatma özelliği eklenmelidir.
+17-	Farklı mama türleri için (kuru mama / ödül maması) sağlanabilir.
+ Won't have:
+18-	Canlı kamera akışı ve yapayzeka ile evcil hayvanın yüz tanıma veya mama yeme anını kaydetme özelliği bu sürümde olmayacaktır.
+19-	Cihazın şarj edilebilir batarya ile tamamen kablosuz (pilli) çalışması bu aşamada hedeflenmemektedir.
+20-	Evcil hayvanın sağlık takibini doğrudan yapabilecek akıllı tasmalarla entegrasyon bu aşamada kapsama dahil değildir.
+Gereksinimlerin Sınıflandırılması
+İş Gereksinimleri:
+Sistem, evcil hayvan sahiplerinin besleme süreçlerini yöneterek iş yükünü azaltmalıdır.
+Proje maliyeti, hedeflenen bütçe sınırları içinde kalmalıdır.
+ Sistem düşük enerji tüketimi ile sürekli (7/24) çalışabilir olmalıdır.
+Kullanıcı Odaklı Gereksinimler 
+Kullanıcı, mobil uygulama üzerinden karmaşık menülerle uğraşmadan tek dokunuşla mama verebilmelidir.
+Mama azaldığında veya cihaz bağlantısı koptuğunda kullanıcı net ve anlaşılır bildirimler almalıdır.
+Arayüz kullanıcı dostu, sade ve anlaşılır bir yapıda olmalıdır.
+Fonksiyonel Gereksinimler 
+ESP32, Wi-Fi üzerinden veritabanı ile senkronize çalışmalıdır.
+Mobil uygulamadan girilen besleme saatleri cihaza iletilmeli ve zamanı geldiğinde servo motor tetiklenmelidir.
+Seviye sensöründen gelen ham veriler işlenerek kalan mama hesaplanmalıdır.
+Tüm beslenme geçmişi veritabanında saklanmalı ve istenildiğinde listelenmelidir.
+Fonksiyonel Olmayan Gereksinimler  
+Güvenilirlik: Sistem ağ kopmalarına karşı dayanıklı olmalı, bağlantı geldiğinde verileri senkronize edebilmelidir.
+Performans: Mobil uygulamadan verilen komutlar cihaza ulaşmalıdır.
+Güvenlik: Kullanıcı verileri ve şifrelemeler güvenli protokoller (HTTPS / SSL) üzerinden iletilmelidir.
+Kullanılabilirlik: Mobil arayüz farklı ekran boyutlarına uyumlu olmalıdır.
+
+USE CASE
+ 
+
+1.Senaryo: Manuel Mama Akışı  
+Kullanıcı: Evcil Hayvan Sahibi.
+Kullanıcı mobil uygulamadaki ana ekranda yer alan "Şimdi Besle" butonuna tıklar.
+Uygulama veritabanı üzerinden ilgili cihazın durumunu kontrol eder.
+Sunucu, ESP32 cihazına sinyali gönderir.
+ESP32 servo motoru belirli bir açı ve süreyle çalıştırır.
+Hazneden mama kasesine mama dökülür.
+İşlem tamamlandığında sistem uygulamaya başarılı yanıtı döner, verilen mamanın saati kaydedilir ve ekranda "Mama başarıyla verildi" bildirimi gösterilir.
+2.Senaryo: Zamanlanmış Otomatik Besleme
+Sistem saati belirlenen zamana (örn. 08:00) geldiğinde tetiklenir.
+ESP32 dahili saat senkronizasyonu (NTP) üzerinden zamanı doğrular.
+Mikrodenetleyici servo motoru otomatik olarak çalıştırarak belirlenen porsiyon kadar mama akışını sağlar.
+Besleme olayı, tarih ve saat damgasıyla birlikte veritabanına kaydedilir.
+Kullanıcının telefonuna "08:00 öğünü başarıyla gerçekleştirildi" şeklinde bir bilgi bildirimi gönderilir.
+3. Senaryo: Kritik Mama Seviyesi ve Bildirim Gönderimi
+Mama kabındaki seviye sensörü ölçüm yapar ve doluluk oranını tespit eder.
+ESP32 bu veriyi işleyerek güncel durumu bildirir.
+Sunucu, mama seviyesinin kritik seviyenin altında olduğunu algılar.
+Sistem, kullanıcının mobil cihazına anlık push bildirimi ("Uyarı mama haznesindeki mama azalmıştır, lütfen mama ekleyin!") gönderir.
+Mobil uygulamanın ana ekranındaki mama göstergesi kırmızı renkli uyarı simgesine dönüşür.
+
